@@ -1,0 +1,227 @@
+/* Night-time theme — layered gradients with accessible contrast
+	 - Linear gradient for landscape (bottom half)
+	 - Radial gradient for moon glow (sky/top half)
+	 - Stars and moon decoration
+	 - Keeps A01 HTML structure, semantics, and accessibility intact
+*/
+
+:root {
+	--bg-deep: #020417;        /* very dark navy */
+	--panel-bg: rgba(7, 12, 20, 0.92); /* slightly translucent panel */
+	--muted: #bcd3ea;         /* muted text */
+	--text: #eaf6ff;          /* high-contrast text */
+	--accent: #84d7ff;        /* accent/outline color */
+	--focus: rgba(132,215,255,0.22);
+}
+
+/* Page background: radial gradient (sky + moon glow) + linear gradient (landscape) */
+html, body {
+	height: 100%;
+}
+
+body {
+	font-family: inherit;
+	margin: 0;
+	color: var(--text);
+	background-color: var(--bg-deep);
+	background-image:
+		/* Radial gradient: moon glow centered in upper sky */
+		radial-gradient(circle at 18% 12%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.00) 32%),
+		/* Linear gradient: landscape from mid-sky to bottom (dark ground) */
+		linear-gradient(180deg, #0a0f2a 0%, #05081f 35%, #1a1a2e 65%, #0d0d1a 100%);
+	background-attachment: fixed;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	position: relative;
+}
+
+/* Container stays readable with translucent panel — sits above background layers */
+.container {
+	background: var(--panel-bg);
+	color: var(--text);
+	width: 420px;
+	padding: 35px 45px;
+	border-radius: 12px;
+	box-shadow: 0 10px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.02);
+	position: relative;
+	z-index: 10;
+}
+
+.title {
+	color: var(--text);
+	text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+
+.title-underline { background-color: var(--accent); }
+
+.section-number { background: rgba(255,255,255,0.08); color: var(--text); }
+.section-title { background: transparent; color: var(--muted); }
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+	background: rgba(255,255,255,0.04);
+	color: var(--text);
+	border: 1px solid rgba(255,255,255,0.06);
+}
+
+input::placeholder, textarea::placeholder { color: rgba(234,246,255,0.6); }
+
+/* Focus states for accessibility */
+input:focus, textarea:focus, select:focus {
+	outline: none;
+	box-shadow: 0 0 0 4px var(--focus);
+	border-color: var(--accent);
+}
+
+.submit {
+	background: linear-gradient(180deg, #49b7ff 0%, #1590d6 100%);
+	color: #021022;
+}
+
+.clear { color: #ffb3b3; border-color: rgba(255,180,180,0.08); }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+	* { transition: none !important; }
+}
+
+/* Utility: ensure strong contrast for small text */
+small { color: var(--muted); }
+
+/* Keep footer subtle but readable */
+.page-footer { color: rgba(234,246,255,0.6); }
+
+/* ============ Starfield layer ============ */
+/* Many tiny radial gradients positioned around the sky to simulate stars */
+body::before {
+	content: "";
+	pointer-events: none;
+	position: fixed;
+	inset: 0;
+	z-index: 1;
+	background-image:
+		/* scattered stars across upper sky — different sizes and opacities */
+		radial-gradient(circle at 5% 8%, rgba(255,255,255,0.95) 0.6px, transparent 1.2px),
+		radial-gradient(circle at 12% 18%, rgba(255,255,255,0.8) 0.5px, transparent 1px),
+		radial-gradient(circle at 24% 6%, rgba(255,255,255,0.9) 0.7px, transparent 1.4px),
+		radial-gradient(circle at 32% 25%, rgba(255,255,255,0.7) 0.4px, transparent 0.8px),
+		radial-gradient(circle at 42% 12%, rgba(255,255,255,0.85) 0.6px, transparent 1.2px),
+		radial-gradient(circle at 54% 20%, rgba(255,255,255,0.9) 0.5px, transparent 1px),
+		radial-gradient(circle at 68% 8%, rgba(255,255,255,0.75) 0.4px, transparent 0.8px),
+		radial-gradient(circle at 78% 22%, rgba(255,255,255,0.95) 0.7px, transparent 1.4px),
+		radial-gradient(circle at 88% 10%, rgba(255,255,255,0.8) 0.5px, transparent 1px),
+		radial-gradient(circle at 95% 15%, rgba(255,255,255,0.85) 0.6px, transparent 1.2px),
+		/* more scattered stars */
+		radial-gradient(circle at 18% 35%, rgba(255,255,255,0.6) 0.4px, transparent 0.8px),
+		radial-gradient(circle at 45% 32%, rgba(255,255,255,0.7) 0.5px, transparent 1px),
+		radial-gradient(circle at 72% 30%, rgba(255,255,255,0.8) 0.6px, transparent 1.2px),
+		/* faint dust of smaller stars for depth */
+		radial-gradient(circle, rgba(255,255,255,0.05) 0.2px, transparent 0.5px);
+	background-repeat: no-repeat;
+	background-size: 100% 45%;
+	background-position: 0 0;
+	mix-blend-mode: screen;
+	opacity: 0.9;
+}
+
+/* ============ Moon styling ============ */
+/* CSS moon with bright center and soft halo glow */
+.moon {
+	pointer-events: none;
+	position: fixed;
+	left: 10%;
+	top: 8%;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	/* Radial gradient: bright center fading to translucent edges */
+	background: radial-gradient(
+		circle at 32% 32%,
+		#fffef9 0%,
+		#f5faff 8%,
+		rgba(240,250,255,0.7) 30%,
+		rgba(255,255,255,0.08) 70%,
+		transparent 100%
+	);
+	box-shadow:
+		/* outer glow */
+		0 0 60px rgba(132,215,255,0.15),
+		/* inner rim light */
+		0 0 20px rgba(255,255,255,0.08) inset,
+		/* crater shadow for depth */
+		-8px -8px 16px rgba(0,0,0,0.3) inset;
+	filter: blur(0.3px);
+	z-index: 2;
+	opacity: 0.98;
+}
+
+/* ============ Shooting Stars Animation ============ */
+/* Create streaking effect using linear gradients that animate across the sky */
+.shooting-star {
+	pointer-events: none;
+	position: fixed;
+	height: 2px;
+	background: linear-gradient(90deg, 
+		rgba(255,255,255,0.95) 0%, 
+		rgba(255,255,255,0.5) 40%, 
+		rgba(255,255,255,0) 100%);
+	z-index: 3;
+	filter: blur(0.5px);
+}
+
+/* Shooting star animation — moves from top-left to bottom-right */
+@keyframes shootAcross {
+	0% {
+		opacity: 0;
+		transform: translate(-100%, -100%) rotate(-35deg);
+	}
+	5% {
+		opacity: 1;
+	}
+	95% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: translate(120vw, 120vh) rotate(-35deg);
+	}
+}
+
+/* Star 1: Upper-left to mid-screen */
+.shooting-star:nth-child(1) {
+	width: 150px;
+	top: 15%;
+	left: 5%;
+	animation: shootAcross 4s ease-in-out 0s infinite;
+}
+
+/* Star 2: Mid-screen with delay */
+.shooting-star:nth-child(2) {
+	width: 120px;
+	top: 25%;
+	left: 15%;
+	animation: shootAcross 3.5s ease-in-out 3s infinite;
+}
+
+/* Star 3: Right side with longer delay */
+.shooting-star:nth-child(3) {
+	width: 180px;
+	top: 20%;
+	left: 70%;
+	animation: shootAcross 5s ease-in-out 6s infinite;
+}
+
+/* ============ Accessibility: respect reduced motion ============ */
+@media (prefers-reduced-motion: reduce) {
+	body::before,
+	.moon,
+	.shooting-star {
+		animation: none !important;
+		transition: none !important;
+	}
+}
+
+/* End of night-time theme */

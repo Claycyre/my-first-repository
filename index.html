@@ -5,8 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Signup Form</title>
   <link rel="stylesheet" href="styles.css" />
+  <!-- Night-time theme loads automatically for users with dark color-scheme preference -->
+  <link rel="stylesheet" href="night-time-styles.css" media="(prefers-color-scheme: dark)" />
 </head>
 <body>
+  <!-- Decorative moon element (aria-hidden for accessibility) -->
+  <div class="moon" aria-hidden="true"></div>
+  
+  <!-- Shooting stars (aria-hidden for accessibility) -->
+  <div class="shooting-star" aria-hidden="true"></div>
+  <div class="shooting-star" aria-hidden="true"></div>
+  <div class="shooting-star" aria-hidden="true"></div>
+  
   <div class="container">
     <div class="header">
       <h1 class="title">Signup</h1>
