@@ -1,0 +1,10 @@
+AI tools used: Visual Studio Code built-in AI (Claude and GPT 5-Mini)
+Functions used: Ask, and Agent.
+
+
+This project was my first experience using the built-in AI tools in Visual Studio Code, and it was a fairly 
+mind-blowing experience for me. Previously, I had strictly worked through the browser versions of Copilot
+and ChatGPT, but I experimented with Claude here as well, and I will definitely be using Claude in the 
+future. Beyond simply enabling and using the in-application AI suite, I activated the agent to help
+me through parts of the git process. My prior experience with AI never really made me aware of its 
+potential, but using these tools definitely broadens my perspective on AI.
